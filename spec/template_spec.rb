@@ -9,9 +9,12 @@ describe "Sensu::Extension::Template" do
   end
 
   it "can run" do
-    @extension.safe_run(event_template) do |output, status|
-      expect(output).to eq("template")
-      expect(status).to eq(0)
+    async_wrapper do
+      @extension.safe_run(event_template) do |output, status|
+        expect(output).to eq("template")
+        expect(status).to eq(0)
+        async_done
+      end
     end
   end
 end
